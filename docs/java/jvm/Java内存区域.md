@@ -1,5 +1,3 @@
-点击关注[公众号](#公众号)及时获取笔主最新更新文章，并可免费领取本文档配套的《Java面试突击》以及Java工程师必备学习资源。
-
 <!-- TOC -->
 
 - [Java 内存区域详解](#java-内存区域详解)
@@ -66,7 +64,7 @@ Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分成
 
 **JDK 1.8 ：**
 
-![](./pictures/java内存区域/2019-3Java运行时数据区域JDK1.8.png)
+![](./pictures/java内存区域/Java运行时数据区域JDK1.8.png)
 
 
 **线程私有的：**
@@ -104,7 +102,9 @@ Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分成
 **Java 虚拟机栈会出现两种错误：`StackOverFlowError` 和 `OutOfMemoryError`。**
 
 - **`StackOverFlowError`：** 若 Java 虚拟机栈的内存大小不允许动态扩展，那么当线程请求栈的深度超过当前 Java 虚拟机栈的最大深度的时候，就抛出 StackOverFlowError 错误。
-- **`OutOfMemoryError`：** 若 Java 虚拟机堆中没有空闲内存，并且垃圾回收器也无法提供更多内存的话。就会抛出 OutOfMemoryError 错误。
+- **`OutOfMemoryError`：**  Java 虚拟机栈的内存大小可以动态扩展， 如果虚拟机在动态扩展栈时无法申请到足够的内存空间，则抛出`OutOfMemoryError`异常异常。
+
+![](./pictures/java内存区域/《深入理解虚拟机》第三版的第2章-虚拟机栈.png)
 
 Java 虚拟机栈也是线程私有的，每个线程都有各自的 Java 虚拟机栈，而且随着线程的创建而创建，随着线程的死亡而死亡。
 
@@ -125,7 +125,7 @@ Java 方法有两种返回方式：
 
 本地方法被执行的时候，在本地方法栈也会创建一个栈帧，用于存放该本地方法的局部变量表、操作数栈、动态链接、出口信息。
 
-方法执行完毕后相应的栈帧也会出栈并释放内存空间，也会出现 StackOverFlowError 和 OutOfMemoryError 两种错误。
+方法执行完毕后相应的栈帧也会出栈并释放内存空间，也会出现 `StackOverFlowError` 和 `OutOfMemoryError` 两种错误。
 
 ### 2.4 堆
 
@@ -306,13 +306,15 @@ JDK1.4 中新加入的 **NIO(New Input/Output) 类**，引入了一种基于**�
 ### 3.3 对象的访问定位
 建立对象就是为了使用对象，我们的 Java 程序通过栈上的 reference 数据来操作堆上的具体对象。对象的访问方式由虚拟机实现而定，目前主流的访问方式有**①使用句柄**和**②直接指针**两种：
 
-1. **句柄：** 如果使用句柄的话，那么 Java 堆中将会划分出一块内存来作为句柄池，reference 中存储的就是对象的句柄地址，而句柄中包含了对象实例数据与类型数据各自的具体地址信息；
+1. **句柄：** 如果使用句柄的话，那么 Java 堆中将会划分出一块内存来作为句柄池，reference 中存储的就是对象的句柄地址，而句柄中包含了对象实例数据与类型数据各自的具体地址信息；  
 
-  ![对象的访问定位-使用句柄](./pictures/java内存区域/对象的访问定位-使用句柄.png)
+   ![对象的访问定位-使用句柄](./pictures/java内存区域/对象的访问定位-使用句柄.png)
 
 2. **直接指针：**  如果使用直接指针访问，那么 Java 堆对象的布局中就必须考虑如何放置访问类型数据的相关信息，而 reference 中存储的直接就是对象的地址。
 
 ![对象的访问定位-直接指针](./pictures/java内存区域/对象的访问定位-直接指针.png)
+
+
 
 **这两种对象访问方式各有优势。使用句柄来访问的最大好处是 reference 中存储的是稳定的句柄地址，在对象被移动时只会改变句柄中的实例数据指针，而 reference 本身不需要修改。使用直接指针访问方式最大的好处就是速度快，它节省了一次指针定位的时间开销。**
 
@@ -413,7 +415,7 @@ private static class CharacterCache {
 }
 ```
 
-两种浮点数类型的包装类 Float,Double 并没有实现常量池技术。**
+两种浮点数类型的包装类 Float,Double 并没有实现常量池技术。
 
 ```java
 		Integer i1 = 33;
@@ -492,13 +494,3 @@ i4=i5+i6   true
 - <https://dzone.com/articles/jvm-permgen-%E2%80%93-where-art-thou>
 - <https://stackoverflow.com/questions/9095748/method-area-and-permgen>
 - 深入解析String#intern<https://tech.meituan.com/2014/03/06/in-depth-understanding-string-intern.html>
-
-## 公众号
-
-如果大家想要实时关注我更新的文章以及分享的干货的话，可以关注我的公众号。
-
-**《Java面试突击》:** 由本文档衍生的专为面试而生的《Java面试突击》V2.0 PDF 版本[公众号](#公众号)后台回复 **"Java面试突击"** 即可免费领取！
-
-**Java工程师必备学习资源:** 一些Java工程师常用学习资源[公众号](#公众号)后台回复关键字 **“1”** 即可免费无套路获取。 
-
-![我的公众号](https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-6/167598cd2e17b8ec.png)
